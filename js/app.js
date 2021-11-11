@@ -94,35 +94,6 @@ const makeActive = () => {
     };
 };
 
-const hideNavbar = () => {
-    let prevScroll = window.pageYOffset;
-
-    window.onscroll = () => {
-    let currentScroll = window.pageYOffset;
-    
-        if (prevScroll > currentScroll) {
-            navBarMenu.style.top = "0";
-            navBarMenu.style.display = 'flex';
-        } else {
-            navBarMenu.style.top = "-50px";
-            navBarMenu.style.display = 'none';
-        }
-            prevScroll = currentScroll;
-    }
-};
-
-const showNavbar = () => {
-    let userScrolls;
-
-    window.addEventListener('scroll',  () => {
-        window.clearTimeout(userScrolls);
-
-        userScrolls = setTimeout(() => {
-            navBarMenu.style.display = 'flex';
-        }, 3000);
-    }, false);
-};
-
 const reloadPage = () => {
     if (history.scrollRestoration) {
         history.scrollRestoration = 'manual';
@@ -134,24 +105,16 @@ const reloadPage = () => {
 };
 
 /**
- *      I need to create a moblie nav-bar that triggered anywhere from
- *      320px to 720px on the horizontal axis
- */
-
-const mobile_nav = () => {
-    if(window.pageXOffset = 320) {
-        document.body.style = 'border: 4px solid red;';
-    };
-};
-// mobile_nav();
-
-/**
  *      Navbar
  */
 
 // create the navbar
+const navBarMobile = document.getElementById('mobile__navbar');
+const hamburgerMenu = document.querySelector('.span__menu__container');
+
 const navBarMenu = document.querySelector('.navbar__menu');
 const navBarList = document.querySelector('#navbar__list');
+
 const navBarListItem_1 = document.createElement('li');
 const navBarListItem_2 = document.createElement('li');
 const navBarListItem_3 = document.createElement('li');
@@ -174,11 +137,28 @@ document.addEventListener('scroll', () => {
     makeActive();
 });
 
-// Hide navbar when scrolling
-hideNavbar();
-
-// Show navbar when user stops scrolling for more than 1 second
-showNavbar();
-
 // Scroll to top of page when user clicks on reload
 reloadPage();
+
+// Mobile Navbar
+navBarMobile.innerHTML = `
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <div class="overlay-content">
+        <a href="#section1">Section 1</a>
+        <a href="#section2">Section 2</a>
+        <a href="#section3">Section 3</a>
+        <a href="#section4">Section 4</a>
+    </div>
+`;
+
+hamburgerMenu.innerHTML = `
+    <span class="span__menu" onclick="openNav()">&#9776;</span>
+`;
+
+const openNav = () => {
+    document.getElementById("mobile__navbar").style.width = "100%";
+}
+
+const closeNav = () => {
+    document.getElementById("mobile__navbar").style.width = "0%";
+}

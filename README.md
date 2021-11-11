@@ -14,8 +14,12 @@ The ***"navbar"*** is dynamically set to the ***"body"*** with the following fun
 
 ```javascript
 // create the navbar
+const navBarMobile = document.getElementById('mobile__navbar');
+const hamburgerMenu = document.querySelector('.span__menu__container');
+
 const navBarMenu = document.querySelector('.navbar__menu');
 const navBarList = document.querySelector('#navbar__list');
+
 const navBarListItem_1 = document.createElement('li');
 const navBarListItem_2 = document.createElement('li');
 const navBarListItem_3 = document.createElement('li');
@@ -32,7 +36,7 @@ listLinks();
 
 ## Creating dynamic list items
 
-This function creates dynamic anchor tags that are added to the navbar's list items :
+This function creates dynamic anchor tags that are added to the navbar's list items, it also provides a ***"smooth scrolling"*** effect at certain vertical parts of the page :
 
 ```javascript
 const listLinks = () => {
@@ -110,48 +114,6 @@ const reloadPage = () => {
     }
 };
 ```
-
-## Hiding the Navbar
-
-This function hides the navbar when the user is scrolling down :
-
-```javascript
-const hideNavbar = () => {
-    let prevScroll = window.pageYOffset;
-
-    window.onscroll = () => {
-    let currentScroll = window.pageYOffset;
-    
-        if (prevScroll > currentScroll) {
-            navBarMenu.style.top = "0";
-            navBarMenu.style.display = 'flex';
-        } else {
-            navBarMenu.style.top = "-50px";
-            navBarMenu.style.display = 'none';
-        }
-            prevScroll = currentScroll;
-    }
-};
-```
-
-## Showing the Navbar
-
-This function will show the navbar after the user stops scrolling for more than 3 seconds : 
-
-```javascript
-const showNavbar = () => {
-    let userScrolls;
-
-    window.addEventListener('scroll',  () => {
-        window.clearTimeout(userScrolls);
-
-        userScrolls = setTimeout(() => {
-            navBarMenu.style.display = 'flex';
-        }, 3000);
-    }, false);
-};
-```
-
 ## Adding ***"active"*** class to each ***"section"*** tag
 
 This function sets an attribute of an active class that is dynamically applied to each individual section tag, as the user scrolls down the page : 
@@ -189,6 +151,35 @@ const makeActive = () => {
         document.getElementsByTagName("section")[3].removeAttribute("class", "active");
     };
 };
+```
+
+## Mobile Navigation
+
+When the the width of the page is less than 720px, the navbar becomes mobile
+
+```javascript
+// Mobile Navbar
+navBarMobile.innerHTML = `
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <div class="overlay-content">
+        <a href="#section1">Section 1</a>
+        <a href="#section2">Section 2</a>
+        <a href="#section3">Section 3</a>
+        <a href="#section4">Section 4</a>
+    </div>
+`;
+
+hamburgerMenu.innerHTML = `
+    <span class="span__menu" onclick="openNav()">&#9776;</span>
+`;
+
+const openNav = () => {
+    document.getElementById("mobile__navbar").style.width = "100%";
+}
+
+const closeNav = () => {
+    document.getElementById("mobile__navbar").style.width = "0%";
+}
 ```
 
 # MIT License
